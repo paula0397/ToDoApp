@@ -11,11 +11,19 @@ if (!jwt) {
 window.addEventListener("load", function () {
   /* ---------------- variables globales y llamado a funciones ---------------- */
 
+  const btnCerrarSesion = this.document.getElementById("closeApp");
+
   /* -------------------------------------------------------------------------- */
   /*                          FUNCIÓN 1 - Cerrar sesión                         */
   /* -------------------------------------------------------------------------- */
 
   // btnCerrarSesion.addEventListener('click', function () {
+    const confirmacionCerrarSesion = confirm("Desea cerrar sesión?");
+
+    if (confirmacionCerrarSesion) {
+      localStorage.removeItem("jwt");
+      location.replace("./");
+    }
 
   // });
 
@@ -23,7 +31,25 @@ window.addEventListener("load", function () {
   /*                 FUNCIÓN 2 - Obtener nombre de usuario [GET]                */
   /* -------------------------------------------------------------------------- */
 
-  function obtenerNombreUsuario() {}
+  function obtenerNombreUsuario() {
+    const url = "https://ctd-todo-api.herokuapp.com/v1/users/getMe",
+      configuraciones = {
+        method: "GET",
+        headers: {
+          authorization: jwt,
+        },
+      };
+
+    fetch(url, configuraciones)
+      .then((respuesta) => respuesta.json())
+      .then((data) => {
+        console.log(data);
+        document.getElementById(
+          "username"
+        ).innerText = `${data.firstName} ${data.lastName}`;
+      });
+  }
+  obtenerNombreUsuario();
 
   /* -------------------------------------------------------------------------- */
   /*                 FUNCIÓN 3 - Obtener listado de tareas [GET]                */
