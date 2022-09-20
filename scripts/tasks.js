@@ -77,7 +77,36 @@ window.addEventListener("load", function () {
   /* -------------------------------------------------------------------------- */
 
   const formCrearTarea = document.forms[0];
-  formCrearTarea.addEventListener("submit", function (event) {});
+  formCrearTarea.addEventListener("submit", function (event) {
+    const formCrearTarea = document.forms[0];
+    formCrearTarea.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const url = "https://ctd-todo-api.herokuapp.com/v1/tasks";
+      const inputDescription = document.getElementById("nuevaTarea");
+  
+      configuraciones = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: jwt,
+        },
+        body: JSON.stringify({
+          description: inputDescription.value,
+          completed: false,
+        }),
+      };
+  
+      inputDescription.value = ""
+      inputDescription.focus();
+  
+      fetch(url, configuraciones)
+        .then((response) => response.json())
+        .then((data) => {
+          consultarTareas()
+        });
+    });
+  
+  });
 
   /* -------------------------------------------------------------------------- */
   /*                  FUNCIÓN 5 - Renderizar tareas en pantalla                 */
