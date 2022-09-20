@@ -55,7 +55,22 @@ window.addEventListener("load", function () {
   /*                 FUNCIÓN 3 - Obtener listado de tareas [GET]                */
   /* -------------------------------------------------------------------------- */
 
-  function consultarTareas() {}
+  function consultarTareas() {
+    const url = "https://ctd-todo-api.herokuapp.com/v1/tasks",
+      configuraciones = {
+        method: "GET",
+        headers: {
+          authorization: jwt,
+        },
+      };
+
+    fetch(url, configuraciones)
+      .then((respuesta) => respuesta.json())
+      .then((data) => {
+        renderizarTareas(data)
+      });
+  }
+  consultarTareas();
 
   /* -------------------------------------------------------------------------- */
   /*                    FUNCIÓN 4 - Crear nueva tarea [POST]                    */
